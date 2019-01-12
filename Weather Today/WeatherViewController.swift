@@ -29,19 +29,28 @@ class WeatherViewController: UIViewController {
         // weatherSectionBG.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         
+        //weather location title:
+        weatherSectionBG.addSubview(weatherCityTitle)
+        weatherCityTitle.leftAnchor.constraint(equalTo: weatherSectionBG.leftAnchor, constant: 20).isActive = true
+        weatherCityTitle.topAnchor.constraint(equalTo: weatherSectionBG.topAnchor , constant: 50).isActive = true
+        
+        
+        weatherSectionBG.addSubview(weatherTimeAndDate)
+        weatherTimeAndDate.leftAnchor.constraint(equalTo: weatherSectionBG.leftAnchor, constant: 20).isActive = true
+        weatherTimeAndDate.topAnchor.constraint(equalTo: weatherCityTitle.bottomAnchor, constant: 5).isActive = true
+        
         
         view.addSubview(weatherMidSection)
         weatherMidSection.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-        weatherMidSection.topAnchor.constraint(equalTo: view.topAnchor, constant: 260).isActive = true
+        weatherMidSection.topAnchor.constraint(equalTo: weatherSectionBG.bottomAnchor, constant: 15).isActive = true
         weatherMidSection.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12).isActive = true
-        // weatherMidSection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 12).isActive = true
-        weatherMidSection.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        weatherMidSection.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
         
         
         view.addSubview(weatherSevenDaysSection)
         weatherSevenDaysSection.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-        weatherSevenDaysSection.topAnchor.constraint(equalTo: view.topAnchor, constant: 370).isActive = true
+        weatherSevenDaysSection.topAnchor.constraint(equalTo: weatherMidSection.bottomAnchor, constant: 15).isActive = true
         weatherSevenDaysSection.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12).isActive = true
         // weatherMidSection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 12).isActive = true
         weatherSevenDaysSection.heightAnchor.constraint(equalToConstant: 200).isActive = true
@@ -65,9 +74,30 @@ class WeatherViewController: UIViewController {
         return weatherBG
     }()
     
+    // top weather section content
+    
+    let weatherCityTitle : UILabel = {
+        let cityTitle = UILabel()
+        cityTitle.translatesAutoresizingMaskIntoConstraints = false
+        cityTitle.text = "Dhaka"
+        cityTitle.font = UIFont.boldSystemFont(ofSize: 16)
+        cityTitle.textColor = UIColor.white
+        return cityTitle
+    }()
+    let weatherTimeAndDate : UILabel = {
+        let cityTime = UILabel()
+        cityTime.translatesAutoresizingMaskIntoConstraints = false
+        cityTime.text = "Monday 13 2019, 12:00 AM"
+        cityTime.font = UIFont.boldSystemFont(ofSize: 12)
+        cityTime.textColor = UIColor.white
+        return cityTime
+    }()
+    
+    
+    
     let weatherMidSection : UIView = {
         let weatherBD = UIView()
-        weatherBD.backgroundColor = UIColor.red
+        weatherBD.backgroundColor = UIColor.green
         weatherBD.translatesAutoresizingMaskIntoConstraints = false
         return weatherBD
     }()
