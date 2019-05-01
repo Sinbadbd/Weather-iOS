@@ -13,9 +13,23 @@ class WeatherVC: UIViewController {
     let weatherContainer:UIView = UIView()
     let headerSection:UIView = UIView()
     
+    var apiResponse = WeatherClient()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
      //   view.backgroundColor = .white
+        
+        WeatherClient.getCurrentWeather { (response, error) in
+            print(response)
+            
+            DispatchQueue.main.async {
+                self.weatherCityTitle.text = response.name
+                self.weatherTimeAndDate.text  =  "\((response.dt as! Double).getDateStringFromUTC())"
+            }
+            
+            //(using: .utf8)!.prettyPrintedJSONString!
+        }
+        
         view.addSubview(weatherContainer)
         weatherContainer.translatesAutoresizingMaskIntoConstraints = false
         weatherContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
@@ -99,7 +113,7 @@ class WeatherVC: UIViewController {
     let weatherCityTitle : UILabel = {
         let cityTitle = UILabel()
         cityTitle.translatesAutoresizingMaskIntoConstraints = false
-        cityTitle.text = "Dhaka"
+        cityTitle.text = "--"
         cityTitle.font = UIFont.boldSystemFont(ofSize: 40)
         cityTitle.textColor = UIColor.white
         cityTitle.textAlignment = .center
@@ -108,7 +122,7 @@ class WeatherVC: UIViewController {
     let weatherTimeAndDate : UILabel = {
         let cityTime = UILabel()
         cityTime.translatesAutoresizingMaskIntoConstraints = false
-        cityTime.text = "Monday 13 2019, 12:00 AM"
+        cityTime.text = "---"
         cityTime.font = UIFont.boldSystemFont(ofSize: 12)
         cityTime.textColor = UIColor.white
         return cityTime

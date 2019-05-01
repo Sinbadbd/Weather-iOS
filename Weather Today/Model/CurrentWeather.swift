@@ -16,12 +16,12 @@
  */
 
 import Foundation
-struct CurrentWeather {
+struct CurrentWeather : Decodable {
     let id : Int
     let name : String
     let base : String
     let visibility : Int
-    let dt: Int
+    let dt: Double
     let coord : Coordinate
     let weather : [weather]
     let main : Main
@@ -30,32 +30,32 @@ struct CurrentWeather {
     let sys : Sys
 }
 
-struct Coordinate {
+struct Coordinate  : Decodable {
     let lon : Float
     let lat : Float
 }
-struct weather {
+struct weather : Decodable {
     let id : Int
     let main : String
     let description: String
     let icon : String
 }
 
-struct Main {
+struct Main : Decodable {
     let temp : Float
     let pressure : Int
     let humidity : Int
     let temp_min : Float
     let temp_max : Float
 }
-struct Wind {
+struct Wind : Decodable {
     let speed : Float
     let deg : Float
 }
-struct Clouds {
+struct Clouds : Decodable {
     let all : Int
 }
-struct Sys {
+struct Sys : Decodable {
     let type : Int
     let id : Int
     let message : Float
