@@ -9,7 +9,9 @@
 import UIKit
 import Kingfisher
 import CoreLocation
-class WeatherVC: UIViewController , CLLocationManagerDelegate{
+class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    
+    
     
     let weatherContainer:UIView = UIView()
     let headerSection:UIView = UIView()
@@ -20,10 +22,62 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate{
     let weatherCelsius : UILabel = UILabel()
     
     let locationManager = CLLocationManager()
+    let CELL_ID = "CELL_ID"
+    
+    let collectionContent:UIView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        updateUI()
+        setupView()
+        view.layoutIfNeeded()
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(HourlyForcastCell.self, forCellWithReuseIdentifier: CELL_ID)
+        
+        
+        locationManager.requestWhenInUseAuthorization()
+        if (CLLocationManager.locationServicesEnabled()) {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
+        
+        
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! HourlyForcastCell
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 80, height: 90)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        var lat = WeatherClient.lat
+        var lon = WeatherClient.lon
+        let location = locations[0]
+        WeatherClient.getLocation { (response, error) in
+            print(lat, lon)
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        headerSection.setGradientBackground(colorTop: UIColor(red: 246/255, green: 130/255, blue: 139/255, alpha: 1), colorBottom: UIColor(red: 250/255, green: 166/255, blue: 119/255, alpha: 1))
+    }
+    
+    
+    func updateUI(){
         WeatherClient.getCurrentWeather { (response, error) in
             print(response)
             DispatchQueue.main.async {
@@ -35,49 +89,6 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate{
                 self.weatherTemprature.text = "\(Int(round(response.main.temp - 273.15)))"
             }
         }
-        
-        
-        locationManager.requestWhenInUseAuthorization()
-        
-        
-        if (CLLocationManager.locationServicesEnabled()) {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-        }
-        setupView()
-        view.layoutIfNeeded()
-    }
-    
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var lat = WeatherClient.lat
-        var lon = WeatherClient.lon
-        
-        let location = locations[0]
-        
-        
-        WeatherClient.getLocation { (response, error) in
-//            lat = "\(response.coord.lat)"
-//            lon = "\(response.coord.lon)"
-            print(lat, lon)
-        }
-        
-       
-        
-        
-        
-        
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        headerSection.setGradientBackground(colorTop: UIColor(red: 246/255, green: 130/255, blue: 139/255, alpha: 1), colorBottom: UIColor(red: 250/255, green: 166/255, blue: 119/255, alpha: 1))
-    }
-    
-    
-    func updateUI(){
-        
     }
     
     func setupView() {
@@ -126,7 +137,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate{
         weatherTemprature.textColor = .white
         weatherTemprature.textAlignment = .center
         weatherTemprature.font = UIFont.systemFont(ofSize: 50)
- 
+        
         headerSection.addSubview(weatherCelsius)
         weatherCelsius.translatesAutoresizingMaskIntoConstraints = false
         weatherCelsius.anchor(top: weatherTemprature.topAnchor, leading: weatherTemprature.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 5, bottom: 0, right: 0))
@@ -135,17 +146,26 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate{
         weatherCelsius.textColor = .white
         weatherCelsius.font = UIFont.systemFont(ofSize: 24)
         
+    
+        weatherContainer.addSubview(collectionContent)
+        collectionContent.translatesAutoresizingMaskIntoConstraints = false
+        collectionContent.anchor(top: headerSection.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: nil, trailing: weatherContainer.trailingAnchor, padding: .init(top: 20, left: 5, bottom: 0, right: 0), size: CGSize(width: view.frame.width, height: 100))
+        collectionContent.backgroundColor = .red
+        
+        // collection View
+        collectionContent.addSubview(collectionView)
+        collectionView.anchor(top: collectionContent.topAnchor, leading: collectionContent.leadingAnchor, bottom: collectionContent.bottomAnchor, trailing: collectionContent.trailingAnchor)
+        collectionView.backgroundColor = .white
     }
     
-    // top section
-//    let weatherSectionBG : UIView = {
-//        let weatherBG = UIView()
-//      //  weatherBG.setGradientBackground(colorTop: #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1) , colorBottom: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1) )
-//        weatherBG.translatesAutoresizingMaskIntoConstraints = false
-//        return weatherBG
-//    }()
-    
-    // top weather section content
+    let collectionView : UICollectionView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
     
     let weatherCityTitle : UILabel = {
         let cityTitle = UILabel()
