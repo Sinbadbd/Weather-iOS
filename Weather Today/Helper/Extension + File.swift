@@ -29,22 +29,13 @@ extension Date {
 func convertMilliToDate(milliseconds: Int64) -> Date {
     return Date(timeIntervalSince1970: (TimeInterval(milliseconds) / 1000))
 }
+
 extension Double {
     func getDateStringFromUTC() -> String {
         let date = Date(timeIntervalSince1970: self)
-        
         let dateFormatter = DateFormatter()
-       // dateFormatter.locale = Locale(identifier: NSLocale.current.identifier)
         dateFormatter.dateFormat = "dd, MMMM yyyy HH:mm:a"
         dateFormatter.timeZone = NSTimeZone(name: "UTC") as! TimeZone
-      //  dateFormatter.dateFormat = "EEEE"
-       // dateFormatter.dateStyle = .medium
-        
-//        let date = NSDate(timeIntervalSince1970: self)
-//        dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.currentLocale().localeIdentifier)
-//        dateFormatter.dateFormat = "EEEE"
-//        return dateFormatter.stringFromDate(date)
-        
         return dateFormatter.string(from: date)
     }
 }

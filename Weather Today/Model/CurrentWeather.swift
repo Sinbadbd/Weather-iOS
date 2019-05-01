@@ -23,7 +23,7 @@ struct CurrentWeather : Decodable {
     let visibility : Int
     let dt: Double
     let coord : Coordinate
-    let weather : [weather]
+    let weather : [Weather]
     let main : Main
     let wind : Wind
     let clouds : Clouds
@@ -34,7 +34,7 @@ struct Coordinate  : Decodable {
     let lon : Float
     let lat : Float
 }
-struct weather : Decodable {
+struct Weather : Decodable {
     let id : Int
     let main : String
     let description: String

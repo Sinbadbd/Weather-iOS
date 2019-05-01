@@ -9,11 +9,13 @@
 import Foundation
 class WeatherClient {
     static let appid = "f279df88f01232850ddff621c125603d"
+    static var lat = 23.7805733
+    static var lon = 90.2792399
     
     enum Endpoints {
         static let base = "https://api.openweathermap.org/data/2.5/"
         static let apiKeyParam = "&appid=\(WeatherClient.appid)"
-        static let location = "?q=dhaka,bd"
+        static let location = "?lat=\(WeatherClient.lat)&lon=\(WeatherClient.lon)"
         case getCurrentWeather
         
         var stringValue : String{
@@ -27,6 +29,24 @@ class WeatherClient {
             return URL(string : stringValue)!
         }
     }
+    class func getLocation(completion: @escaping(CurrentWeather, Error?) -> Void){
+        let task = URLSession.shared.dataTask(with: Endpoints.getCurrentWeather.url) { (data, response, error) in
+            
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(CurrentWeather.self, from: data!)
+                print(response)
+                completion(response, nil)
+                
+            } catch {
+            }
+        }
+        task.resume()
+    }
+    
     class func getCurrentWeather(completion: @escaping(CurrentWeather, Error?) -> Void){
         
         let task = URLSession.shared.dataTask(with: Endpoints.getCurrentWeather.url) { (data, response, error) in
@@ -36,16 +56,14 @@ class WeatherClient {
             }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(CurrentWeather.self, from: data!) 
+                let response = try decoder.decode(CurrentWeather.self, from: data!)
+                print(response)
                 completion(response, nil)
                 
             } catch {
-            //  print(completion(nil, error))
             }
-             //print(response)
         }
         task.resume()
-        
     }
     
     
