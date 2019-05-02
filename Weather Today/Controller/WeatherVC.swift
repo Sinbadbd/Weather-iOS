@@ -11,7 +11,7 @@ import Kingfisher
 import CoreLocation
 class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
-    
+    var hourlyForcast = [HourlyList]()
     
     let weatherContainer:UIView = UIView()
     let headerSection:UIView = UIView()
@@ -31,6 +31,8 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         
         updateUI()
         setupView()
+        setupHourlyForcast()
+        
         view.layoutIfNeeded()
         
         collectionView.delegate = self
@@ -48,13 +50,28 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         
     }
     
+    func setupHourlyForcast(){
+        WeatherClient.getHourlyForcast { (response, error) in
+            
+            DispatchQueue.main.async {
+                self.hourlyForcast = response.list
+                self.collectionView.reloadData()
+            }
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return hourlyForcast.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! HourlyForcastCell
+        
+        let apiResponse = hourlyForcast[indexPath.item]
+        cell.hourlyTimeLabel.text = "\((apiResponse.dt as! Double).getTime())"
+        let icon = apiResponse.weather[0].icon
+        cell.hourlyIconImage.image = UIImage(named: icon)
+        cell.hourlyTemprature.text = "\(Int(round(apiResponse.main.temp - 273.15)))"
         return cell
     }
     
@@ -63,12 +80,12 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var lat = WeatherClient.lat
-        var lon = WeatherClient.lon
-        let location = locations[0]
-        WeatherClient.getLocation { (response, error) in
-            print(lat, lon)
-        }
+//        var lat = WeatherClient.lat
+//        var lon = WeatherClient.lon
+//        let location = locations[0]
+//        WeatherClient.getLocation { (response, error) in
+//            print(lat, lon)
+//        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -100,7 +117,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         weatherContainer.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         weatherContainer.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         weatherContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        weatherContainer.backgroundColor = .white
+        weatherContainer.backgroundColor =  UIColor(red: 225/255, green: 214/255, blue: 226/255, alpha: 1)
         
         weatherContainer.addSubview(headerSection)
         headerSection.translatesAutoresizingMaskIntoConstraints = false
@@ -150,12 +167,12 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         weatherContainer.addSubview(collectionContent)
         collectionContent.translatesAutoresizingMaskIntoConstraints = false
         collectionContent.anchor(top: headerSection.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: nil, trailing: weatherContainer.trailingAnchor, padding: .init(top: 20, left: 5, bottom: 0, right: 0), size: CGSize(width: view.frame.width, height: 100))
-        collectionContent.backgroundColor = .red
+        //collectionContent.backgroundColor = UIColor(red: 225/255, green: 214/255, blue: 226/255, alpha: 1)
         
         // collection View
         collectionContent.addSubview(collectionView)
         collectionView.anchor(top: collectionContent.topAnchor, leading: collectionContent.leadingAnchor, bottom: collectionContent.bottomAnchor, trailing: collectionContent.trailingAnchor)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
     }
     
     let collectionView : UICollectionView = {

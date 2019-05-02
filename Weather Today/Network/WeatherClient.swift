@@ -17,31 +17,31 @@ class WeatherClient {
         static let apiKeyParam = "&appid=\(WeatherClient.appid)"
         static let location = "?lat=\(WeatherClient.lat)&lon=\(WeatherClient.lon)"
         case getCurrentWeather
-        
+        case getHourlyForcast
         var stringValue : String{
             switch self {
             case .getCurrentWeather: return Endpoints.base + "weather" + Endpoints.location + Endpoints.apiKeyParam
-                
-                
+            case .getHourlyForcast: return Endpoints.base + "forecast/hourly" + Endpoints.location + Endpoints.apiKeyParam
             }
         }
         var url : URL {
             return URL(string : stringValue)!
         }
     }
-    class func getLocation(completion: @escaping(CurrentWeather, Error?) -> Void){
-        let task = URLSession.shared.dataTask(with: Endpoints.getCurrentWeather.url) { (data, response, error) in
-            
+    
+    class func getHourlyForcast(completion: @escaping(HourlyForcast, Error?)-> Void){
+        let task = URLSession.shared.dataTask(with: Endpoints.getHourlyForcast.url) { (data, response, error) in
+            print(Endpoints.getHourlyForcast.url)
             if let error = error {
                 print(error.localizedDescription)
             }
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(CurrentWeather.self, from: data!)
-                print(response)
-                completion(response, nil)
-                
+                let responseAPI = try decoder.decode(HourlyForcast.self, from: data!)
+                print("hourly------\(responseAPI)")
+                completion(responseAPI, nil)
             } catch {
+                print(error.localizedDescription)
             }
         }
         task.resume()
@@ -57,7 +57,7 @@ class WeatherClient {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(CurrentWeather.self, from: data!)
-                print(response)
+                //print(response)
                 completion(response, nil)
                 
             } catch {
@@ -65,6 +65,5 @@ class WeatherClient {
         }
         task.resume()
     }
-    
-    
 }
+

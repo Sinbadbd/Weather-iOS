@@ -34,8 +34,17 @@ extension Double {
     func getDateStringFromUTC() -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd, MMMM yyyy HH:mm:a"
-        dateFormatter.timeZone = NSTimeZone(name: "UTC") as! TimeZone
+        dateFormatter.dateFormat = "dd, MMMM yyyy"
+        dateFormatter.timeZone = NSTimeZone(name: "GMT") as! TimeZone
+        return dateFormatter.string(from: date)
+    }
+}
+extension Double {
+    func getTime() -> String {
+        let date = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH"
+        dateFormatter.timeZone = NSTimeZone(name: "GMT") as! TimeZone
         return dateFormatter.string(from: date)
     }
 }

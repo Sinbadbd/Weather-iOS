@@ -24,6 +24,8 @@ class HourlyForcastCell : UICollectionViewCell {
         addSubview(viewX)
         viewX.translatesAutoresizingMaskIntoConstraints = false
         viewX.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor)
+        viewX.backgroundColor = .white
+        viewX.layer.cornerRadius = 5
         
         setupUI()
         
@@ -41,8 +43,6 @@ class HourlyForcastCell : UICollectionViewCell {
         hourlyIconImage.clipsToBounds = true
         hourlyIconImage.anchor(top: hourlyTimeLabel.bottomAnchor, leading: viewX.leadingAnchor, bottom: nil, trailing: viewX.trailingAnchor, padding: .init(top: 2, left: 0, bottom: 0, right: 0), size: CGSize(width: 40, height: 40))
         hourlyIconImage.centerXInSuperview()
-        
-        addSubview(hourlyTemLabel)
         
         
         addSubview(hourlyTemprature)
