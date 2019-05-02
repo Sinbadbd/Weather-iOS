@@ -31,6 +31,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         
         updateUI()
         setupView()
+        hourlyForcastUI()
         view.layoutIfNeeded()
         
         collectionView.delegate = self
@@ -44,10 +45,13 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        
-        
     }
     
+    func hourlyForcastUI(){
+        WeatherClient.getHourlyForcast { (response, error) in
+            print("hourly:\(response)")
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -66,9 +70,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         var lat = WeatherClient.lat
         var lon = WeatherClient.lon
         let location = locations[0]
-        WeatherClient.getLocation { (response, error) in
-            print(lat, lon)
-        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,7 +81,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
     
     func updateUI(){
         WeatherClient.getCurrentWeather { (response, error) in
-            print(response)
+             print(response)
             DispatchQueue.main.async {
                 self.weatherCityTitle.text = response.name
                 self.weatherTimeAndDate.text  =  "\((response.dt as! Double).getDateStringFromUTC())"
