@@ -8,7 +8,8 @@
 
 import UIKit
 import Kingfisher
-import CoreLocation
+import CoreLocation 
+
 class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     var hourlyForcast = [HourlyList]()
@@ -23,9 +24,10 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
     
     let locationManager = CLLocationManager()
     let CELL_ID = "CELL_ID"
-    
+    let DAILY_ID = "DAILY_ID"
     let collectionContent:UIView = UIView()
     
+   // var barChart: BarChartView = Bar
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,6 +41,11 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         collectionView.dataSource = self
         collectionView.register(HourlyForcastCell.self, forCellWithReuseIdentifier: CELL_ID)
         
+        tableView.layoutMargins = UIEdgeInsets.zero
+        tableView.separatorInset = UIEdgeInsets.zero
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(DailyForcast.self, forCellReuseIdentifier: DAILY_ID)
         
         locationManager.requestWhenInUseAuthorization()
         if (CLLocationManager.locationServicesEnabled()) {
@@ -173,6 +180,11 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         collectionContent.addSubview(collectionView)
         collectionView.anchor(top: collectionContent.topAnchor, leading: collectionContent.leadingAnchor, bottom: collectionContent.bottomAnchor, trailing: collectionContent.trailingAnchor)
         collectionView.backgroundColor = .clear
+        
+        
+        collectionContent.addSubview(tableView)
+        tableView.anchor(top: collectionContent.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: weatherContainer.bottomAnchor, trailing: weatherContainer.trailingAnchor)
+        
     }
     
     let collectionView : UICollectionView = {
@@ -182,6 +194,13 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         let collectionView  = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
+    }()
+    
+    let tableView : UITableView = {
+        let table = UITableView()
+        table.backgroundColor = .clear
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
     }()
     
     let weatherCityTitle : UILabel = {
@@ -225,5 +244,26 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         return weatherBottom
     }()
     
+}
+
+
+extension WeatherVC : UITableViewDelegate, UITableViewDataSource {
+ 
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: DAILY_ID, for: indexPath)
+        return cell
+    }
+
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+
+
 }
 

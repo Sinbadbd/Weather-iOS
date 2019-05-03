@@ -35,7 +35,7 @@ extension Double {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd, MMMM yyyy"
-        dateFormatter.timeZone = NSTimeZone(name: "GMT") as! TimeZone
+        dateFormatter.timeZone = NSTimeZone(name: "GMT")! as TimeZone
         return dateFormatter.string(from: date)
     }
 }
@@ -44,7 +44,7 @@ extension Double {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH"
-        dateFormatter.timeZone = NSTimeZone(name: "GMT") as! TimeZone
+        dateFormatter.timeZone = NSTimeZone(name: "GMT")! as TimeZone
         return dateFormatter.string(from: date)
     }
 }

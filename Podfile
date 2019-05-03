@@ -6,6 +6,5 @@ target 'Weather Today' do
   use_frameworks!
 
  pod 'Kingfisher', '~> 5.0'
-  # Pods for Weather Today
-
+  # Pods for Weather Today '
 end
