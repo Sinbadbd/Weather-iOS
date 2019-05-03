@@ -6,13 +6,13 @@
 //  Copyright © 2019 sinbad. All rights reserved.
 //
 
-import UIKit
-import Kingfisher
+import UIKit 
 import CoreLocation 
 
 class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     var hourlyForcast = [HourlyList]()
+    var dailyForcastResponse = [ListDaily]()
     
     let weatherContainer:UIView = UIView()
     let headerSection:UIView = UIView()
@@ -33,7 +33,8 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         
         updateUI()
         setupView()
-        setupHourlyForcast()
+        setupAPIResponse()
+        
         
         view.layoutIfNeeded()
         
@@ -45,7 +46,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         tableView.separatorInset = UIEdgeInsets.zero
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(DailyForcast.self, forCellReuseIdentifier: DAILY_ID)
+        tableView.register(DailyForcastCell.self, forCellReuseIdentifier: DAILY_ID)
         
         locationManager.requestWhenInUseAuthorization()
         if (CLLocationManager.locationServicesEnabled()) {
@@ -53,11 +54,20 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        
+         
+        WeatherClient.getDailyForcast { (respose, error) in
+            //self.dailyForcast = respose.list
+            DispatchQueue.main.async {
+               
+                print(respose)
+                self.dailyForcastResponse = respose.list
+                self.tableView.reloadData()
+            }
+        }
         
     }
     
-    func setupHourlyForcast(){
+    func setupAPIResponse(){
         WeatherClient.getHourlyForcast { (response, error) in
             
             DispatchQueue.main.async {
@@ -66,6 +76,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
             }
         }
     }
+     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return hourlyForcast.count
@@ -103,7 +114,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
     
     func updateUI(){
         WeatherClient.getCurrentWeather { (response, error) in
-            print(response)
+           // print(response)
             DispatchQueue.main.async {
                 self.weatherCityTitle.text = response.name
                 self.weatherTimeAndDate.text  =  "\((response.dt as! Double).getDateStringFromUTC())"
@@ -251,11 +262,14 @@ extension WeatherVC : UITableViewDelegate, UITableViewDataSource {
  
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return dailyForcastResponse.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DAILY_ID, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: DAILY_ID, for: indexPath) as! DailyForcastCell
+        let apiData = dailyForcastResponse[indexPath.item]
+        let icon = apiData.weather[0].icon
+        cell.weatherIcon.image = UIImage(named: icon)
         return cell
     }
 

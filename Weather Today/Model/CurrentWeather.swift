@@ -5,16 +5,7 @@
 //  Created by sinbad on 4/30/19.
 //  Copyright © 2019 sinbad. All rights reserved.
 //
-
-/*
  
- "temp": 302.15,
- "pressure": 1005,
- "humidity": 70,
- "temp_min": 302.15,
- "temp_max": 302.15
- */
-
 import Foundation
 struct CurrentWeather : Decodable {
     let id : Int

@@ -16,17 +16,43 @@ class WeatherClient {
         static let base = "https://api.openweathermap.org/data/2.5/"
         static let apiKeyParam = "&appid=\(WeatherClient.appid)"
         static let location = "?lat=\(WeatherClient.lat)&lon=\(WeatherClient.lon)"
+        
         case getCurrentWeather
         case getHourlyForcast
+        case getDailyForcast
+        
         var stringValue : String{
             switch self {
             case .getCurrentWeather: return Endpoints.base + "weather" + Endpoints.location + Endpoints.apiKeyParam
             case .getHourlyForcast: return Endpoints.base + "forecast/hourly" + Endpoints.location + Endpoints.apiKeyParam
+            case .getDailyForcast: return Endpoints.base + "forecast/daily" + Endpoints.location + Endpoints.apiKeyParam
+                
             }
         }
         var url : URL {
             return URL(string : stringValue)!
         }
+    }
+    
+    
+    class func getDailyForcast(completion: @escaping(DailyForcastData, Error?)-> Void){
+        
+        let task = URLSession.shared.dataTask(with: Endpoints.getDailyForcast.url) { (data, response, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            do {
+                
+                let decoder = JSONDecoder()
+                let responseAPI = try decoder.decode(DailyForcastData.self, from: data!)
+                completion(responseAPI, nil)
+                
+            } catch {
+                
+            }
+        }
+        task.resume()
     }
     
     class func getHourlyForcast(completion: @escaping(HourlyForcast, Error?)-> Void){
@@ -38,7 +64,7 @@ class WeatherClient {
             do {
                 let decoder = JSONDecoder()
                 let responseAPI = try decoder.decode(HourlyForcast.self, from: data!)
-                print("hourly------\(responseAPI)")
+                //print("hourly------\(responseAPI)")
                 completion(responseAPI, nil)
             } catch {
                 print(error.localizedDescription)

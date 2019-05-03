@@ -15,7 +15,8 @@
 		A10BB7A62278C922005AEBAB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BB7A52278C922005AEBAB /* Colors.swift */; };
 		A10BB7AA2278D69B005AEBAB /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BB7A92278D69B005AEBAB /* CurrentWeather.swift */; };
 		A10BB7AC2278DA4F005AEBAB /* WeatherClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10BB7AB2278DA4F005AEBAB /* WeatherClient.swift */; };
-		A11703ED227C8B1600FF42E5 /* DailyForcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11703EC227C8B1600FF42E5 /* DailyForcast.swift */; };
+		A11703ED227C8B1600FF42E5 /* DailyForcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11703EC227C8B1600FF42E5 /* DailyForcastCell.swift */; };
+		A11703F1227CCA9D00FF42E5 /* DailyForcastData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11703F0227CCA9D00FF42E5 /* DailyForcastData.swift */; };
 		A1F5CD7A21E5136000ED084D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F5CD7921E5136000ED084D /* AppDelegate.swift */; };
 		A1F5CD7C21E5136000ED084D /* WeatherVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F5CD7B21E5136000ED084D /* WeatherVC.swift */; };
 		A1F5CD7F21E5136000ED084D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1F5CD7D21E5136000ED084D /* Main.storyboard */; };
@@ -33,7 +34,8 @@
 		A10BB7A52278C922005AEBAB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A10BB7A92278D69B005AEBAB /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		A10BB7AB2278DA4F005AEBAB /* WeatherClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherClient.swift; sourceTree = "<group>"; };
-		A11703EC227C8B1600FF42E5 /* DailyForcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForcast.swift; sourceTree = "<group>"; };
+		A11703EC227C8B1600FF42E5 /* DailyForcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForcastCell.swift; sourceTree = "<group>"; };
+		A11703F0227CCA9D00FF42E5 /* DailyForcastData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForcastData.swift; sourceTree = "<group>"; };
 		A1F5CD7621E5136000ED084D /* Weather Today.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather Today.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F5CD7921E5136000ED084D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1F5CD7B21E5136000ED084D /* WeatherVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherVC.swift; sourceTree = "<group>"; };
@@ -77,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				A10AE1512279E00300E7C7D9 /* HourlyForcastCell.swift */,
-				A11703EC227C8B1600FF42E5 /* DailyForcast.swift */,
+				A11703EC227C8B1600FF42E5 /* DailyForcastCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -105,6 +107,7 @@
 			children = (
 				A10BB7A92278D69B005AEBAB /* CurrentWeather.swift */,
 				A10AE14E2279CF4300E7C7D9 /* HourlyForecast.swift */,
+				A11703F0227CCA9D00FF42E5 /* DailyForcastData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -163,7 +166,6 @@
 				A1F5CD7221E5136000ED084D /* Sources */,
 				A1F5CD7321E5136000ED084D /* Frameworks */,
 				A1F5CD7421E5136000ED084D /* Resources */,
-				C395DFFE77D64883976996EC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -221,28 +223,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C395DFFE77D64883976996EC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Weather Today/Pods-Weather Today-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Weather Today/Pods-Weather Today-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F9C7974E7B075CA9B925BEDD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -272,13 +252,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A11703F1227CCA9D00FF42E5 /* DailyForcastData.swift in Sources */,
 				A10BB7A42278BC6F005AEBAB /* Constrain + View.swift in Sources */,
 				A10AE14D22796B7C00E7C7D9 /* Extension + File.swift in Sources */,
 				A10AE14F2279CF4300E7C7D9 /* HourlyForecast.swift in Sources */,
 				A10BB7AC2278DA4F005AEBAB /* WeatherClient.swift in Sources */,
 				A10BB7AA2278D69B005AEBAB /* CurrentWeather.swift in Sources */,
 				A10AE1522279E00300E7C7D9 /* HourlyForcastCell.swift in Sources */,
-				A11703ED227C8B1600FF42E5 /* DailyForcast.swift in Sources */,
+				A11703ED227C8B1600FF42E5 /* DailyForcastCell.swift in Sources */,
 				A10BB7A62278C922005AEBAB /* Colors.swift in Sources */,
 				A1F5CD7C21E5136000ED084D /* WeatherVC.swift in Sources */,
 				A1F5CD7A21E5136000ED084D /* AppDelegate.swift in Sources */,

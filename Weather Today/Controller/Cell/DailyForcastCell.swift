@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class DailyForcast : UITableViewCell {
+class DailyForcastCell : UITableViewCell {
     
     let weatherIcon : UIImageView = UIImageView()
     let dateNameLabel : UILabel = UILabel()
@@ -69,6 +69,37 @@ class DailyForcast : UITableViewCell {
         celsiusLabel.textColor = .black
         celsiusLabel.text = "℃"
         celsiusLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        
+        maxTemlLabel.textColor = .black
+        maxTemlLabel.text = "30"
+        maxTemlLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        
+        minTemLabel.textColor = .black
+        minTemLabel.text = "25"
+        minTemLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        
+        maxTemImage.translatesAutoresizingMaskIntoConstraints = false
+        maxTemImage.contentMode = .scaleAspectFit
+        maxTemImage.backgroundColor = .green
+        maxTemImage.widthAnchor.constraint(equalToConstant: 10)
+        maxTemImage.heightAnchor.constraint(equalToConstant: 10)
+       // maxTemImage.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, size: CGSize(width: 20, height: 20))
+        
+        minTemImage.translatesAutoresizingMaskIntoConstraints = false
+        minTemImage.contentMode = .scaleAspectFit
+        minTemImage.backgroundColor = .blue
+        
+       // minTemImage.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, size: CGSize(width: 20, height: 20))
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            maxTemImage, maxTemlLabel, minTemImage, minTemLabel
+            ])
+        tempView.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.backgroundColor = .yellow
+        stackView.distribution = .fillEqually
+        stackView.anchor(top: tempLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, size: CGSize(width: 80, height: 50))
     }
     
     required init?(coder aDecoder: NSCoder) {
