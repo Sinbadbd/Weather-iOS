@@ -270,6 +270,11 @@ extension WeatherVC : UITableViewDelegate, UITableViewDataSource {
         let apiData = dailyForcastResponse[indexPath.item]
         let icon = apiData.weather[0].icon
         cell.weatherIcon.image = UIImage(named: icon)
+        cell.dateNameLabel.text = "\((apiData.dt).getDate())"
+        cell.tempLabel.text = "\(Int(round(apiData.temp.day - 273.15)))"
+        cell.weatherDescription.text = apiData.weather[0].description
+        cell.maxTemlLabel.text = "\(Int(round(apiData.temp.max - 273.15)))"
+       // cell.minTemlLabel.text = "\(Int(round(apiData.temp.min - 273.15)))"
         return cell
     }
 

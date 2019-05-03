@@ -48,3 +48,12 @@ extension Double {
         return dateFormatter.string(from: date)
     }
 }
+extension Double {
+    func getDate() -> String {
+        let date = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        dateFormatter.timeZone = NSTimeZone(name: "GMT")! as TimeZone
+        return dateFormatter.string(from: date)
+    }
+}

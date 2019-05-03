@@ -36,7 +36,7 @@ struct DailyTempratue : Decodable{
     let day : Double
     let min : Double
     let max : Double
-  //  let min : Double
+   // let min : Double
     let night : Double
     let eve : Double
     let morn : Double

@@ -28,7 +28,6 @@ class DailyForcastCell : UITableViewCell {
         addSubview(weatherIcon)
         weatherIcon.translatesAutoresizingMaskIntoConstraints = false
         weatherIcon.contentMode = .scaleAspectFit
-        weatherIcon.backgroundColor = .red
         weatherIcon.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 10, bottom: 0, right: 0), size: CGSize(width: 60, height: 60))
        
         addSubview(dateNameLabel)
@@ -36,7 +35,7 @@ class DailyForcastCell : UITableViewCell {
         dateNameLabel.textColor = .black
         dateNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
         dateNameLabel.text = "Saturday"
-        dateNameLabel.backgroundColor = .red
+         dateNameLabel.backgroundColor = .red
         dateNameLabel.anchor(top: topAnchor, leading: weatherIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 5, bottom: 0, right: 0), size: CGSize(width: 250, height: 25))
         
         
@@ -47,12 +46,12 @@ class DailyForcastCell : UITableViewCell {
         weatherDescription.font = UIFont.systemFont(ofSize: 18)
         weatherDescription.numberOfLines = 4
         weatherDescription.text = "sky is clear sky is clear sky is clear sky is clear sky is clear sky is clearsky is clear sky is clear sky is clear"
-        weatherDescription.backgroundColor = .red
-        weatherDescription.anchor(top: dateNameLabel.bottomAnchor, leading: weatherIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 5, bottom: 0, right: 0), size: CGSize(width: 250, height: 70))
+       // weatherDescription.backgroundColor = .red
+        weatherDescription.anchor(top: dateNameLabel.bottomAnchor, leading: weatherIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: CGSize(width: 250, height: 70))
         
         addSubview(tempView)
         tempView.translatesAutoresizingMaskIntoConstraints = false
-        tempView.backgroundColor = .red
+      //  tempView.backgroundColor = .red
         tempView.anchor(top: topAnchor, leading: weatherDescription.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 5, bottom: 0, right: 0), size: CGSize(width: 70, height: 90))
         
         tempView.addSubview(tempLabel)
