@@ -27,6 +27,9 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
     let DAILY_ID = "DAILY_ID"
     let collectionContent:UIView = UIView()
     
+    let hourlyTitleLabel :  UILabel = UILabel()
+    let dailyTitleLabel:UILabel = UILabel()
+    
    // var barChart: BarChartView = Bar
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,19 +185,31 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         weatherCelsius.font = UIFont.systemFont(ofSize: 24)
         
     
+        weatherContainer.addSubview(hourlyTitleLabel)
+        hourlyTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        hourlyTitleLabel.text = "Hourly Forecast"
+        hourlyTitleLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        hourlyTitleLabel.anchor(top: headerSection.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: nil, trailing: weatherContainer.trailingAnchor, padding: .init(top: 10, left: 10, bottom: 20, right: 0))
+        
         weatherContainer.addSubview(collectionContent)
         collectionContent.translatesAutoresizingMaskIntoConstraints = false
-        collectionContent.anchor(top: headerSection.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: nil, trailing: weatherContainer.trailingAnchor, padding: .init(top: 20, left: 5, bottom: 0, right: 0), size: CGSize(width: view.frame.width, height: 100))
-        //collectionContent.backgroundColor = UIColor(red: 225/255, green: 214/255, blue: 226/255, alpha: 1)
+        collectionContent.anchor(top: hourlyTitleLabel.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: nil, trailing: weatherContainer.trailingAnchor, padding: .init(top: 10, left: 5, bottom: 0, right: 0), size: CGSize(width: view.frame.width, height: 100))
         
         // collection View
         collectionContent.addSubview(collectionView)
         collectionView.anchor(top: collectionContent.topAnchor, leading: collectionContent.leadingAnchor, bottom: collectionContent.bottomAnchor, trailing: collectionContent.trailingAnchor)
         collectionView.backgroundColor = .clear
         
+        weatherContainer.addSubview(dailyTitleLabel)
+        dailyTitleLabel.text = "Daily Forecast"
+        dailyTitleLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        dailyTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        dailyTitleLabel.anchor(top: collectionContent.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: nil, trailing: weatherContainer.trailingAnchor, padding: .init(top: 10, left: 10, bottom: 0, right: 0))
+        
+        
         
         weatherContainer.addSubview(tableView)
-        tableView.anchor(top: collectionContent.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: weatherContainer.bottomAnchor, trailing: weatherContainer.trailingAnchor)
+        tableView.anchor(top: dailyTitleLabel.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: weatherContainer.bottomAnchor, trailing: weatherContainer.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0))
         
     }
     
