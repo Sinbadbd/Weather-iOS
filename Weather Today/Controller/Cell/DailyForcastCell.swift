@@ -11,6 +11,7 @@ class DailyForcastCell : UITableViewCell {
     
     let weatherIcon : UIImageView = UIImageView()
     let dateNameLabel : UILabel = UILabel()
+    let dateLabel : UILabel = UILabel()
     let weatherDescription : UILabel = UILabel()
     let tempLabel:UILabel = UILabel()
     let maxTemlLabel : UILabel = UILabel()
@@ -18,7 +19,8 @@ class DailyForcastCell : UITableViewCell {
     let minTemLabel:UILabel = UILabel()
     let minTemImage : UIImageView = UIImageView()
     let celsiusLabel : UILabel = UILabel()
-    
+    let celsiusSmallOne : UILabel = UILabel()
+    let celsiusSmallTwo : UILabel = UILabel()
     let tempView : UIView = UIView()
     
     
@@ -35,9 +37,15 @@ class DailyForcastCell : UITableViewCell {
         dateNameLabel.textColor = .black
         dateNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
         dateNameLabel.text = "Saturday"
-         dateNameLabel.backgroundColor = .red
-        dateNameLabel.anchor(top: topAnchor, leading: weatherIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 5, bottom: 0, right: 0), size: CGSize(width: 250, height: 25))
+      //   dateNameLabel.backgroundColor = .red
+        dateNameLabel.anchor(top: topAnchor, leading: weatherIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 5, bottom: 0, right: 0), size: CGSize(width: dateNameLabel.frame.width, height: 25))
         
+        dateNameLabel.addSubview(dateLabel)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.textColor = .black
+        dateLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        dateLabel.text = "10-20-2019"
+        dateLabel.anchor(top: topAnchor, leading: dateNameLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: 10, bottom: 0, right: 0))
         
         
         addSubview(weatherDescription)
@@ -46,8 +54,8 @@ class DailyForcastCell : UITableViewCell {
         weatherDescription.font = UIFont.systemFont(ofSize: 18)
         weatherDescription.numberOfLines = 4
         weatherDescription.text = "sky is clear sky is clear sky is clear sky is clear sky is clear sky is clearsky is clear sky is clear sky is clear"
-       // weatherDescription.backgroundColor = .red
-        weatherDescription.anchor(top: dateNameLabel.bottomAnchor, leading: weatherIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: CGSize(width: 250, height: 70))
+       //  weatherDescription.backgroundColor = .red
+        weatherDescription.anchor(top: dateNameLabel.bottomAnchor, leading: weatherIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 5, bottom: 0, right: 0), size: CGSize(width: 230, height: weatherDescription.frame.height))
         
         addSubview(tempView)
         tempView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,26 +87,35 @@ class DailyForcastCell : UITableViewCell {
         
         maxTemImage.translatesAutoresizingMaskIntoConstraints = false
         maxTemImage.contentMode = .scaleAspectFit
-        maxTemImage.backgroundColor = .green
-        maxTemImage.widthAnchor.constraint(equalToConstant: 10)
-        maxTemImage.heightAnchor.constraint(equalToConstant: 10)
+       // maxTemImage.backgroundColor = .green
+        maxTemImage.image = #imageLiteral(resourceName: "right-arrow")
+        maxTemImage.widthAnchor.constraint(equalToConstant: 8)
+        maxTemImage.heightAnchor.constraint(equalToConstant: 8)
        // maxTemImage.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, size: CGSize(width: 20, height: 20))
         
         minTemImage.translatesAutoresizingMaskIntoConstraints = false
         minTemImage.contentMode = .scaleAspectFit
-        minTemImage.backgroundColor = .blue
+        minTemImage.widthAnchor.constraint(equalToConstant: 8)
+        minTemImage.heightAnchor.constraint(equalToConstant: 8)
+        minTemImage.image = #imageLiteral(resourceName: "left-arrow")
         
-       // minTemImage.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, size: CGSize(width: 20, height: 20))
+        celsiusSmallOne.translatesAutoresizingMaskIntoConstraints = false
+        celsiusSmallOne.text = "º" 
+        celsiusSmallOne.font = UIFont.systemFont(ofSize: 14)
+        
+        celsiusSmallTwo.translatesAutoresizingMaskIntoConstraints = false
+        celsiusSmallTwo.text = "º"
+        celsiusSmallTwo.font = UIFont.systemFont(ofSize: 14)
         
         let stackView = UIStackView(arrangedSubviews: [
-            maxTemImage, maxTemlLabel, minTemImage, minTemLabel
+            maxTemImage, maxTemlLabel,celsiusSmallOne, minTemImage, minTemLabel,celsiusSmallTwo
             ])
         tempView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.backgroundColor = .yellow
-        stackView.distribution = .fillEqually
-        stackView.anchor(top: tempLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, size: CGSize(width: 80, height: 50))
+        stackView.distribution = .fillProportionally
+        stackView.anchor(top: tempLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, size: CGSize(width: 100, height: 50))
     }
     
     required init?(coder aDecoder: NSCoder) {

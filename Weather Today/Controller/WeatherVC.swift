@@ -193,7 +193,7 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
         collectionView.backgroundColor = .clear
         
         
-        collectionContent.addSubview(tableView)
+        weatherContainer.addSubview(tableView)
         tableView.anchor(top: collectionContent.bottomAnchor, leading: weatherContainer.leadingAnchor, bottom: weatherContainer.bottomAnchor, trailing: weatherContainer.trailingAnchor)
         
     }
@@ -271,16 +271,19 @@ extension WeatherVC : UITableViewDelegate, UITableViewDataSource {
         let icon = apiData.weather[0].icon
         cell.weatherIcon.image = UIImage(named: icon)
         cell.dateNameLabel.text = "\((apiData.dt).getDate())"
+        cell.dateLabel.text = "\((apiData.dt).getDateStringFromUTC())"
         cell.tempLabel.text = "\(Int(round(apiData.temp.day - 273.15)))"
         cell.weatherDescription.text = apiData.weather[0].description
         cell.maxTemlLabel.text = "\(Int(round(apiData.temp.max - 273.15)))"
        // cell.minTemlLabel.text = "\(Int(round(apiData.temp.min - 273.15)))"
+        
+        cell.selectionStyle = .none
         return cell
     }
 
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return 100
     }
 
 
