@@ -1,7 +1,7 @@
 # Weather-iOS
 
 ### Programmatically UI design
-  **USEES**
+  **USE**
       - `UICollectionView`
       - `UITableView`
       - `StackView`
