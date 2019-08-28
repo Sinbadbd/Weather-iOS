@@ -31,6 +31,17 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
     let dailyTitleLabel:UILabel = UILabel()
     
    // var barChart: BarChartView = Bar
+    @objc func handleViewPage(){
+        let url =   "https://openweathermap.org/price"
+        //  guard let url  = url else {return}
+        if let url = URL(string: url), UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,7 +93,30 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
      
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return hourlyForcast.count
+        if (self.hourlyForcast.count == 0) {
+            let lable = UILabel()
+            let button = UIButton()
+            collectionView.addSubview(lable)
+            lable.anchor(top: collectionView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 15, left: 0, bottom: 0, right: 0), size: CGSize(width: lable.frame.width, height: 15))
+            // lable.centerXInSuperview()
+            lable.textAlignment = .center
+            lable.text = "Hourly Forecast is need to subscribe!"
+            lable.textColor = .red
+            
+            collectionView.addSubview(button)
+            button.anchor(top: lable.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: CGSize(width: 120, height: 25))
+            button.centerInSuperview()
+            button.setTitle("View Page", for: .normal)
+            button.setTitleColor(.red, for: .normal)
+            button.layer.borderColor = UIColor.red.cgColor
+            button.layer.borderWidth = 1
+            button.addTarget(self, action: #selector(handleViewPage), for: .touchUpInside)
+            
+        } else {
+            // .restore()
+        }
+        
+        return self.hourlyForcast.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
