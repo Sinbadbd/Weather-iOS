@@ -8,17 +8,17 @@
  
 import Foundation
 struct CurrentWeather : Decodable {
-    let id : Int
+//    let id : Int
     let name : String
-    let base : String
-    let visibility : Int
+//    let base : String
+//    let visibility : Int
     let dt: Double
     let coord : Coordinate
     let weather : [Weather]
     let main : Main
-    let wind : Wind
-    let clouds : Clouds
-    let sys : Sys
+//    let wind : Wind
+//    let clouds : Clouds
+//    let sys : Sys
 }
 
 struct Coordinate  : Decodable {

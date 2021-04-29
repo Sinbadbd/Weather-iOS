@@ -45,10 +45,10 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateUI()
+     
         setupView()
-        setupAPIResponse()
-        
+//        setupAPIResponse()
+//        updateUI()
         
         view.layoutIfNeeded()
         
@@ -73,9 +73,21 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
             //self.dailyForcast = respose.list
             DispatchQueue.main.async {
                
-                print(respose)
+              //  print(respose)
                 self.dailyForcastResponse = respose.list
                 self.tableView.reloadData()
+            }
+        }
+        
+        WeatherClient.getCurrentWeather { (response, error) in
+            print("response:\(response)")
+            DispatchQueue.main.async {
+                self.weatherCityTitle.text = response.name
+                self.weatherTimeAndDate.text  =  "\((response.dt ).getDateStringFromUTC())"
+                let icon = response.weather[0].icon
+                self.weatherIcon.image = UIImage(named: icon)
+                self.weatherConditionTitle.text = response.weather[0].main
+                self.weatherTemprature.text = "\(Int(round(response.main.temp - 273.15)))"
             }
         }
         
@@ -151,10 +163,10 @@ class WeatherVC: UIViewController , CLLocationManagerDelegate, UICollectionViewD
     
     func updateUI(){
         WeatherClient.getCurrentWeather { (response, error) in
-           // print(response)
+           print("response:\(response)")
             DispatchQueue.main.async {
                 self.weatherCityTitle.text = response.name
-                self.weatherTimeAndDate.text  =  "\((response.dt as! Double).getDateStringFromUTC())"
+                self.weatherTimeAndDate.text  =  "\((response.dt ).getDateStringFromUTC())"
                 let icon = response.weather[0].icon
                 self.weatherIcon.image = UIImage(named: icon)
                 self.weatherConditionTitle.text = response.weather[0].main

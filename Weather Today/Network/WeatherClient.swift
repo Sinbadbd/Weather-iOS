@@ -74,19 +74,21 @@ class WeatherClient {
     }
     
     class func getCurrentWeather(completion: @escaping(CurrentWeather, Error?) -> Void){
-        
+        print(Endpoints.getCurrentWeather.url)
         let task = URLSession.shared.dataTask(with: Endpoints.getCurrentWeather.url) { (data, response, error) in
             
             if let error = error {
+                debugPrint(error.localizedDescription)
                 print(error.localizedDescription)
             }
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(CurrentWeather.self, from: data!)
-                //print(response)
+               print("response:\(response)")
                 completion(response, nil)
                 
             } catch {
+                debugPrint(error.localizedDescription)
             }
         }
         task.resume()
